@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps: Conceitos, Práticas, Ferramentas e Benefícios — Atividade 2 (PWEB)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --paper: #F6F8F7;
+            --ink: #0C1B21;
+            --steel: #44565E;
+            --teal: #0F766E;
+            --teal-soft: #E3F0EE;
+            --amber: #B45309;
+            --line: #D8E0DE;
+            --mono: 'JetBrains Mono', monospace;
+            --serif: 'Source Serif 4', Georgia, serif;
+            --disp: 'Space Grotesk', sans-serif;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--serif);
+            font-size: 1.075rem;
+            line-height: 1.75
+        }
+
+        a {
+            color: var(--teal)
+        }
+
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid var(--teal);
+            outline-offset: 3px
+        }
+
+        .wrap {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 1.25rem
+        }
+
+        /* ===== HERO ===== */
+        header {
+            border-bottom: 1px solid var(--line);
+            padding: 3.5rem 0 3rem;
+            background: linear-gradient(180deg, #EDF3F1 0%, var(--paper) 100%)
+        }
+
+        .kicker {
+            font-family: var(--mono);
+            font-size: .78rem;
+            letter-spacing: .08em;
+            color: var(--teal);
+            text-transform: uppercase;
+            margin-bottom: 1rem
+        }
+
+        h1 {
+            font-family: var(--disp);
+            font-weight: 700;
+            font-size: clamp(2rem, 5.5vw, 3.1rem);
+            line-height: 1.12;
+            letter-spacing: -.01em;
+            margin-bottom: 1rem
+        }
+
+        .sub {
+            color: var(--steel);
+            font-size: 1.1rem;
+            max-width: 56ch
+        }
+
+        .meta {
+            margin-top: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem 1.75rem;
+            font-family: var(--mono);
+            font-size: .8rem;
+            color: var(--steel)
+        }
+
+        .meta b {
+            color: var(--ink);
+            font-weight: 600
+        }
+
+        /* pipeline strip — assinatura da página */
+        .pipeline {
+            margin-top: 2.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: .35rem;
+            font-family: var(--mono);
+            font-size: .72rem;
+            letter-spacing: .03em
+        }
+
+        .stage {
+            border: 1px solid var(--line);
+            background: #fff;
+            border-radius: 999px;
+            padding: .28rem .7rem;
+            color: var(--steel)
+        }
+
+        .stage.ok {
+            border-color: var(--teal);
+            color: var(--teal);
+            background: var(--teal-soft)
+        }
+
+        .arrow {
+            color: var(--line);
+            font-size: .9rem
+        }
+
+        /* ===== ARTIGO ===== */
+        main {
+            padding: 3rem 0 4rem
+        }
+
+        section {
+            margin-bottom: 3.25rem
+        }
+
+        .eyebrow {
+            font-family: var(--mono);
+            font-size: .72rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: .4rem
+        }
+
+        h2 {
+            font-family: var(--disp);
+            font-weight: 700;
+            font-size: 1.6rem;
+            letter-spacing: -.005em;
+            margin-bottom: 1rem
+        }
+
+        h3 {
+            font-family: var(--disp);
+            font-weight: 500;
+            font-size: 1.15rem;
+            margin: 1.75rem 0 .6rem;
+            color: var(--ink)
+        }
+
+        p {
+            margin-bottom: 1rem
+        }
+
+        p:last-child {
+            margin-bottom: 0
+        }
+
+        ul {
+            margin: 0 0 1rem 1.35rem
+        }
+
+        li {
+            margin-bottom: .5rem
+        }
+
+        li::marker {
+            color: var(--teal)
+        }
+
+        strong {
+            font-weight: 600
+        }
+
+        .callout {
+            border-left: 3px solid var(--teal);
+            background: var(--teal-soft);
+            padding: 1rem 1.25rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.25rem 0;
+            font-size: 1rem
+        }
+
+        .callout .src {
+            display: block;
+            margin-top: .5rem;
+            font-family: var(--mono);
+            font-size: .75rem;
+            color: var(--steel)
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.25rem 0;
+            font-size: .95rem
+        }
+
+        th {
+            font-family: var(--mono);
+            font-size: .72rem;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            text-align: left;
+            color: var(--steel);
+            border-bottom: 2px solid var(--ink);
+            padding: .5rem .6rem
+        }
+
+        td {
+            border-bottom: 1px solid var(--line);
+            padding: .55rem .6rem;
+            vertical-align: top
+        }
+
+        td:first-child {
+            font-family: var(--mono);
+            font-size: .82rem;
+            color: var(--teal);
+            white-space: nowrap
+        }
+
+        .refs {
+            list-style: none;
+            margin: 0;
+            counter-reset: ref
+        }
+
+        .refs li {
+            margin-bottom: .9rem;
+            padding-left: 0;
+            font-size: .98rem;
+            color: var(--steel)
+        }
+
+        .refs li em {
+            color: var(--ink);
+            font-style: normal;
+            font-weight: 600
+        }
+
+        footer {
+            border-top: 1px solid var(--line);
+            padding: 1.75rem 0 3rem;
+            font-family: var(--mono);
+            font-size: .78rem;
+            color: var(--steel)
+        }
+
+        @media (max-width:560px) {
+            .pipeline .arrow {
+                display: none
+            }
+
+            .pipeline {
+                gap: .3rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="wrap">
+            <p class="kicker">Atividade 2 · Programação Web · Pesquisa</p>
+            <h1>DevOps: conceitos, práticas, ferramentas e benefícios</h1>
+            <p class="sub">Como a integração entre desenvolvimento e operações transformou a entrega de software — da
+                cultura à automação, do commit à produção.</p>
+            <div class="meta">
+                <span><b>Autor</b> Luiz Henrique da Silva Cervelati</span>
+                <span><b>Curso</b> Análise e Desenvolvimento de Sistemas</span>
+                <span><b>Ano</b> 2026</span>
+            </div>
+            <div class="pipeline" aria-label="Ciclo DevOps">
+                <span class="stage ok">plan</span><span class="arrow">→</span>
+                <span class="stage ok">code</span><span class="arrow">→</span>
+                <span class="stage ok">build</span><span class="arrow">→</span>
+                <span class="stage ok">test</span><span class="arrow">→</span>
+                <span class="stage ok">release</span><span class="arrow">→</span>
+                <span class="stage ok">deploy</span><span class="arrow">→</span>
+                <span class="stage ok">operate</span><span class="arrow">→</span>
+                <span class="stage ok">monitor</span><span class="arrow">↺</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="wrap">
+
+        <section id="introducao">
+            <p class="eyebrow">stage: plan</p>
+            <h2>1. Introdução</h2>
+            <p>O desenvolvimento de software moderno exige entregas cada vez mais rápidas, frequentes e confiáveis.
+                Historicamente, porém, as equipes de desenvolvimento (<strong>Dev</strong>) e de operações
+                (<strong>Ops</strong>) trabalhavam de forma isolada, com objetivos conflitantes: enquanto o
+                desenvolvimento buscava lançar novas funcionalidades rapidamente, as operações priorizavam a
+                estabilidade dos sistemas em produção. Esse distanciamento gerava atritos, atrasos nas entregas e falhas
+                recorrentes durante as implantações.</p>
+            <p>Nesse contexto surge o <strong>DevOps</strong>, um movimento cultural e técnico que propõe a integração
+                entre desenvolvimento e operações por meio de colaboração, automação e medição contínua. O termo ganhou
+                força a partir de 2009, com os eventos <em>DevOpsDays</em> organizados por Patrick Debois, e desde então
+                consolidou-se como uma das principais abordagens para a entrega de software em escala (KIM et al.,
+                2018).</p>
+            <p>Esta pesquisa apresenta os conceitos fundamentais do DevOps, suas principais práticas, as ferramentas
+                mais utilizadas no mercado, os benefícios observados por organizações que o adotam e exemplos reais de
+                aplicação.</p>
+        </section>
+
+        <section id="conceitos">
+            <p class="eyebrow">stage: code</p>
+            <h2>2. Conceitos fundamentais</h2>
+
+            <h3>2.1 Definição</h3>
+            <p>DevOps é a combinação de práticas, ferramentas e filosofias culturais que aumenta a capacidade de uma
+                organização de entregar aplicações e serviços em alta velocidade, unificando os processos de
+                desenvolvimento de software e de operações de infraestrutura (AWS, 2024). Mais do que um cargo ou uma
+                ferramenta específica, DevOps é uma <strong>cultura organizacional</strong> que valoriza a
+                responsabilidade compartilhada: quem desenvolve o software também participa da sua operação e
+                monitoramento.</p>
+
+            <h3>2.2 Os pilares CALMS</h3>
+            <ul>
+                <li><strong>Culture (Cultura):</strong> colaboração entre equipes, confiança e responsabilidade
+                    compartilhada pelos resultados;</li>
+                <li><strong>Automation (Automação):</strong> eliminação de tarefas manuais repetitivas em build, testes,
+                    implantação e infraestrutura;</li>
+                <li><strong>Lean (Enxuto):</strong> entregas em pequenos lotes, redução de desperdícios e foco no valor
+                    para o usuário;</li>
+                <li><strong>Measurement (Medição):</strong> coleta de métricas de desempenho, disponibilidade e fluxo de
+                    entrega para orientar decisões;</li>
+                <li><strong>Sharing (Compartilhamento):</strong> disseminação de conhecimento, ferramentas e lições
+                    aprendidas entre as equipes.</li>
+            </ul>
+
+            <h3>2.3 As "Três Maneiras" (The Three Ways)</h3>
+            <p>Kim et al. (2018) descrevem três princípios que sustentam o DevOps: a <strong>primeira maneira</strong>
+                trata do fluxo de trabalho rápido da esquerda para a direita (do desenvolvimento à produção); a
+                <strong>segunda</strong>, do retorno rápido de informações (<em>feedback</em>) da produção para o
+                desenvolvimento; e a <strong>terceira</strong>, de uma cultura de experimentação e aprendizado
+                contínuos, na qual falhas são tratadas como oportunidades de melhoria.
+            </p>
+        </section>
+
+        <section id="praticas">
+            <p class="eyebrow">stage: build → test</p>
+            <h2>3. Principais práticas</h2>
+
+            <h3>3.1 Integração Contínua (CI)</h3>
+            <p>Na integração contínua, os desenvolvedores integram seu código a um repositório compartilhado várias
+                vezes ao dia. Cada integração dispara automaticamente a compilação (<em>build</em>) e a execução de
+                testes automatizados, permitindo detectar defeitos rapidamente e reduzir problemas de integração
+                (FOWLER, 2006).</p>
+
+            <h3>3.2 Entrega e Implantação Contínuas (CD)</h3>
+            <p>A <strong>entrega contínua</strong> (<em>Continuous Delivery</em>) garante que o software esteja sempre
+                em estado implantável, com o processo de liberação automatizado até o ambiente de homologação. A
+                <strong>implantação contínua</strong> (<em>Continuous Deployment</em>) vai além: cada alteração aprovada
+                nos testes é publicada automaticamente em produção, sem intervenção manual (HUMBLE; FARLEY, 2010).
+            </p>
+
+            <h3>3.3 Infraestrutura como Código (IaC)</h3>
+            <p>Servidores, redes e demais recursos de infraestrutura são definidos em arquivos de configuração
+                versionados, tratados como código-fonte. Isso torna os ambientes reproduzíveis, auditáveis e menos
+                sujeitos a erros manuais. Ferramentas como Terraform e Ansible são exemplos consolidados dessa prática.
+            </p>
+
+            <h3>3.4 Monitoramento e observabilidade</h3>
+            <p>Aplicações em produção são monitoradas continuamente por meio de métricas, logs e rastreamento
+                distribuído (<em>tracing</em>). O objetivo é detectar anomalias antes que afetem os usuários e fornecer
+                feedback rápido às equipes de desenvolvimento.</p>
+
+            <h3>3.5 Microsserviços e conteinerização</h3>
+            <p>Embora não sejam obrigatórios, arquiteturas de microsserviços e contêineres (como Docker) são
+                frequentemente associados ao DevOps, pois permitem implantar e escalar componentes de forma
+                independente, acelerando o ciclo de entrega (BASS; WEBER; ZHU, 2015).</p>
+        </section>
+
+        <section id="ferramentas">
+            <p class="eyebrow">stage: release</p>
+            <h2>4. Ferramentas</h2>
+            <p>O ecossistema DevOps é apoiado por um conjunto amplo de ferramentas, geralmente organizadas conforme a
+                etapa do ciclo de vida do software:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Etapa</th>
+                        <th>Ferramentas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>versionamento</td>
+                        <td>Git, GitHub, GitLab, Bitbucket</td>
+                    </tr>
+                    <tr>
+                        <td>ci/cd</td>
+                        <td>GitHub Actions, GitLab CI/CD, Jenkins, Azure DevOps Pipelines</td>
+                    </tr>
+                    <tr>
+                        <td>contêineres</td>
+                        <td>Docker, Kubernetes</td>
+                    </tr>
+                    <tr>
+                        <td>iac</td>
+                        <td>Terraform, Ansible, AWS CloudFormation</td>
+                    </tr>
+                    <tr>
+                        <td>observabilidade</td>
+                        <td>Prometheus, Grafana, Datadog, ELK Stack</td>
+                    </tr>
+                    <tr>
+                        <td>colaboração</td>
+                        <td>Slack, Microsoft Teams, Jira</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>É importante destacar que as ferramentas são um meio, e não um fim: a adoção de tecnologia sem a
+                correspondente mudança cultural tende a reproduzir os mesmos silos que o DevOps busca eliminar (EBERT et
+                al., 2016).</p>
+        </section>
+
+        <section id="beneficios">
+            <p class="eyebrow">stage: deploy</p>
+            <h2>5. Benefícios</h2>
+            <div class="callout">
+                Organizações de alto desempenho em DevOps implantam com mais frequência, levam menos tempo do commit à
+                produção, falham menos em mudanças e se recuperam mais rápido de incidentes.
+                <span class="src">FORSGREN; HUMBLE; KIM — Accelerate / pesquisas State of DevOps (DORA)</span>
+            </div>
+            <ul>
+                <li><strong>Velocidade:</strong> entregas mais frequentes de funcionalidades e correções;</li>
+                <li><strong>Qualidade e confiabilidade:</strong> testes automatizados e implantações padronizadas
+                    reduzem falhas em produção;</li>
+                <li><strong>Escalabilidade:</strong> automação e infraestrutura como código permitem gerenciar ambientes
+                    complexos com consistência;</li>
+                <li><strong>Colaboração:</strong> equipes compartilham responsabilidades, reduzindo conflitos entre
+                    desenvolvimento e operações;</li>
+                <li><strong>Segurança:</strong> com a evolução para o <strong>DevSecOps</strong>, controles de segurança
+                    passam a ser automatizados e integrados desde o início do ciclo de desenvolvimento.</li>
+            </ul>
+        </section>
+
+        <section id="exemplos">
+            <p class="eyebrow">stage: operate</p>
+            <h2>6. Exemplos de aplicação</h2>
+            <p>Grandes empresas de tecnologia foram pioneiras na adoção do DevOps. A <strong>Amazon</strong>, ao migrar
+                para uma arquitetura de serviços e automatizar suas implantações, passou a realizar milhares de deploys
+                por dia em seus sistemas. A <strong>Netflix</strong> tornou-se referência em resiliência ao criar
+                ferramentas como o <em>Chaos Monkey</em>, que desliga componentes aleatoriamente em produção para
+                garantir que o sistema tolere falhas. No Brasil, instituições financeiras como Itaú e Nubank e empresas
+                de e-commerce utilizam pipelines de CI/CD, contêineres e computação em nuvem para entregar atualizações
+                contínuas a milhões de usuários.</p>
+            <p>Em menor escala, um estudante ou uma equipe pequena também pode aplicar DevOps: versionando o código no
+                GitHub, configurando um pipeline de build e testes com GitHub Actions e publicando automaticamente a
+                aplicação em um serviço de nuvem a cada alteração aprovada.</p>
+        </section>
+
+        <section id="conclusao">
+            <p class="eyebrow">stage: monitor</p>
+            <h2>7. Conclusão</h2>
+            <p>O DevOps representa uma mudança profunda na forma de construir e operar software, substituindo silos
+                organizacionais por colaboração, processos manuais por automação e decisões baseadas em intuição por
+                métricas objetivas. As evidências apresentadas pela literatura e pelas pesquisas do setor indicam que
+                sua adoção está diretamente associada a maior velocidade de entrega, maior qualidade e maior
+                estabilidade dos sistemas.</p>
+            <p>Para o desenvolvedor web em formação, compreender DevOps deixou de ser um diferencial e tornou-se um
+                requisito: práticas como versionamento, integração contínua e conteinerização estão presentes no dia a
+                dia da maioria das equipes de desenvolvimento. Conclui-se, portanto, que o estudo do tema contribui
+                tanto para a qualidade dos projetos acadêmicos quanto para a preparação do estudante para o mercado de
+                trabalho.</p>
+        </section>
+
+        <section id="referencias">
+            <p class="eyebrow">stage: docs</p>
+            <h2>Referências</h2>
+            <ul class="refs">
+                <li>AMAZON WEB SERVICES (AWS). <em>O que é DevOps?</em> 2024. Disponível em: <a
+                        href="https://aws.amazon.com/pt/devops/what-is-devops/">aws.amazon.com/pt/devops/what-is-devops</a>.
+                    Acesso em: 16 ago. 2026.</li>
+                <li>ATLASSIAN. <em>DevOps: quebrando a barreira entre desenvolvimento e operações.</em> Disponível em:
+                    <a href="https://www.atlassian.com/br/devops">atlassian.com/br/devops</a>. Acesso em: 16 ago. 2026.
+                </li>
+                <li>BASS, L.; WEBER, I.; ZHU, L. <em>DevOps: A Software Architect's Perspective.</em> Boston:
+                    Addison-Wesley, 2015.</li>
+                <li>EBERT, C.; GALLARDO, G.; HERNANTES, J.; SERRANO, N. DevOps. <em>IEEE Software</em>, v. 33, n. 3, p.
+                    94-100, 2016.</li>
+                <li>FORSGREN, N.; HUMBLE, J.; KIM, G. <em>Accelerate: The Science of Lean Software and DevOps.</em>
+                    Portland: IT Revolution Press, 2018.</li>
+                <li>FOWLER, M. <em>Continuous Integration.</em> 2006. Disponível em: <a
+                        href="https://martinfowler.com/articles/continuousIntegration.html">martinfowler.com/articles/continuousIntegration.html</a>.
+                    Acesso em: 16 ago. 2026.</li>
+                <li>HUMBLE, J.; FARLEY, D. <em>Continuous Delivery: Reliable Software Releases through Build, Test, and
+                        Deployment Automation.</em> Boston: Addison-Wesley, 2010.</li>
+                <li>KIM, G.; HUMBLE, J.; DEBOIS, P.; WILLIS, J. <em>Manual de DevOps: como obter agilidade,
+                        confiabilidade e segurança em organizações tecnológicas.</em> Rio de Janeiro: Alta Books, 2018.
+                </li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="wrap">pipeline status: <span style="color:var(--teal)">✓ all stages passed</span> · Atividade 2 ·
+            PWEB · 2026</div>
+    </footer>
+
+</body>
+
+</html>
